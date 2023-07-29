@@ -20,7 +20,7 @@ contract ReserveVault is ERC4626 {
         address recipient
     );
     /// @dev owner deposit event
-    event depositCom(
+    event depositR(
         address indexed token,
         uint256 indexed amount,
         uint256 indexed time,
@@ -363,7 +363,7 @@ contract ReserveVault is ERC4626 {
         ownerBook[cc].token = token;
         _ownerDeposits = cc;
             
-        emit depositCom(token, amount, time, cc);  
+        emit depositR(token, amount, time, cc);  
     }
     
 
