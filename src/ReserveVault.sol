@@ -26,29 +26,33 @@ contract ReserveVault is ERC4626 {
         uint256 indexed time,
         uint256 count
     );
-
+    /** @dev Owner accounting struct
+   * @param time Deposit time
+   * @param token Address of ERC20 token
+   * @param deposit Amount of owner deposit
+   */
     struct ownerAccount{
-        //count => timestamp
         uint256 time;
-        //count => token
         address token;
-        // timestamp? count => amount
         uint256 deposit;
     }
-
+    /** @dev User accounting struct
+   * @param proposal Specific participating proposal number
+   * @param deposit Amount user deposited
+   * @param withdrew Amount of user withdrew
+   */
     struct userAccount{
-        //uint256 numOfProposals;
-        //user => specifc numOfProposals by user => corensanding ProposalNum ex. 1st vote is proposal number 5, second vote is proposal number 7
         uint256 proposal;
-        //user => proposalNum => amount
         uint256 deposit;
         uint256 withdrew;
     }
-
+    /** @dev Proposal accounting struct
+   * @param token Address of ERC20 token
+   * @param withdrew Amount withdrawn
+   * @param received Amount received
+   */
     struct proposalAccount{
-        //proposalNum -> tokenAddress
         address token;
-        //proposal => amount
         uint256 withdrew;
         uint256 received;
     }
@@ -64,8 +68,7 @@ contract ReserveVault is ERC4626 {
     mapping(address => bool) private _authUsers;
     mapping(uint256 => uint256) private _totalShares;
     mapping(uint256 => bool) private _closedProposals;
-
-    //cause of doulble mapping, numOfProposal might not work***, keep value a uint256 (0)
+    ///@dev mappings for accounting purposes
     mapping(address => mapping(uint256 => userAccount)) internal userBook;
     mapping(uint256 => ownerAccount) internal ownerBook;
     mapping(uint256 => proposalAccount) internal proposalBook;
