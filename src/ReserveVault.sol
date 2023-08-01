@@ -199,7 +199,6 @@ contract ReserveVault is ERC4626 {
     }
     /**
     * @dev Amount received for given proposal
-    ** change neme
     */
     function proposalDeposit(uint256 proposal) external view returns(uint256){
         return proposalBook[proposal].received;
