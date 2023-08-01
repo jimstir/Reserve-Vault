@@ -29,17 +29,17 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 ### Definitions:
 
   - owner: The creator of the reserve.
-	- user: Stakeholders of specific proposals
-	- reserve: The tokenized reserve contract
-	- proposal: Occurs when the owner wants a withdrawal from contract
+  - user: Stakeholders of specific proposals
+  - reserve: The tokenized reserve contract
+  - proposal: Occurs when the owner wants a withdrawal from contract
  
 ### Constructor:
  
   - name: ERC-20 token name
   - ticker: ERC-20 ticker
   - asset: ERC-4626 underlying ERC-20 address
-	- rAuth: Primary authorized user
-	- rOwner: Owner of the Reserve
+  - rAuth: Primary authorized user
+  - rOwner: Owner of the Reserve
 
 # Getter Functions:
 
@@ -127,8 +127,8 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 	  stateMutability: view
 
 	inputs:
-    - name: count
-		type: uint256
+	- name: count
+	type: uint256
 
 	outputs:
 		- name: ownerBook.time
@@ -136,19 +136,165 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 
   ```
 
-#### depositTime
+#### ownerDeposit
 > - Get time of a deposit made to reserve by the owner
   ```yaml
-  - name: depositTime
+  - name: ownerDeposit
 	  type: function
 	  stateMutability: view
 
 	inputs:
-    - name: count
-		type: uint256
+	- name: count
+	type: uint256
 
 	outputs:
-		- name: ownerBook.time
+		- name: ownerBook.deposit
+		type : uint256
+
+  ```
+
+#### tokenDeposit
+> - Token type deposited to contract by the owner
+  ```yaml
+  - name: tokenDeposit
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: count
+	type: uint256
+
+	outputs:
+		- name: ownerBook.token
+		type : address
+
+  ```
+
+#### userDeposit
+> - Token type deposited to contract by the owner
+> - MUST be an ERC20 address
+  ```yaml
+  - name: userDeposit
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: user
+	type: address
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: userBook.deposit
+		type : uint256
+
+  ```
+
+#### userWithdrew
+> - Amount withdrawn from given proposal by the user
+> - MUST be an ERC20 address
+  ```yaml
+  - name: userWithdrew
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: user
+	type: address
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: userBook.withdrew
+		type : uint256
+
+  ```
+
+#### userNumOfProposal
+> - The total number of proposals joined by the user
+  ```yaml
+  - name: userNumOfProposal
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: user
+	type: address
+
+	outputs:
+		- name: userBook.numOfProposals
+		type : uint256
+
+  ```
+
+#### userProposal
+> - The proposal number from the specific proposal joined by the user
+> - MUST NOT be zero
+  ```yaml
+  - name: userProposal
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: user
+	type: address
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: userBook.proposal
+		type : uint256
+
+  ```
+
+#### proposalToken
+> - Token used for given proposal
+> - MUST be ERC20 address
+  ```yaml
+  - name: proposalToken
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: proposalBook.token
+		type : uint256
+
+  ```
+
+#### proposalWithdrew
+> - Amount withdrawn for given proposal
+  ```yaml
+  - name: proposalWithdrew
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: proposalBook.withdrew
+		type : uint256
+
+  ```
+
+#### proposalDeposit
+> - Amount received for given proposal
+  ```yaml
+  - name: proposalDeposit
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: proposalBook.received
 		type : uint256
 
   ```
