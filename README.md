@@ -299,5 +299,239 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 
   ```
 
+#### totalShares
+> - Total shares issued for a given proposal
+  ```yaml
+  - name: totalShares
+	  type: function
+	  stateMutability: view
 
+	inputs:
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: _totalShares
+		type : uint256
+
+  ```
+
+#### closedProposal
+> - Check if proposal is closed
+  ```yaml
+  - name: closedProposal
+	  type: function
+	  stateMutability: view
+
+	inputs:
+	- name: proposal
+	type: uint256
+
+	outputs:
+		- name: _closedProposal
+		type : uint256
+
+  ```
+
+#### addAuth
+> - Add a new authorized user
+  ```yaml
+  - name: addAuth
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: author
+	type: address
+
+	outputs:
+		- []
+
+  ```
+
+#### proposalDeposit
+> - Make a deposit to proposal creating new shares
+> - MUST be open proposal
+> - MUST NOT be closed proposal
+  ```yaml
+  - name: proposalDeposit
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: assets
+	type: uint256
+	-name: receiver
+	type: address
+	-name: proposal
+	type: uint256
+
+	outputs:
+		- name: shares
+		type: uint256
+
+  ```
+
+#### proposalMint
+> - Make a deposit to proposal creating new shares
+> - MUST be open proposal
+> - MUST NOT be closed proposal
+  ```yaml
+  - name: proposalMint
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: shares
+	type: uint256
+	-name: receiver
+	type: address
+	-name: proposal
+	type: uint256
+
+	outputs:
+		- name: assets
+		type: uint256
+
+  ```
+
+#### proposalWithdrawal
+> - Burn shares, receive 1 to 1 value of assets
+> - MUST have closed proposalNumber
+> - MUST have userDeposit greater than or equal to userWithdrawal
+  ```yaml
+  - name: proposalWithdrawal
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: assets
+	type: uint256
+	-name: receiver
+	type: address
+	-name: owner
+	type: address
+	-name: proposal
+	type: uint256
+
+	outputs:
+		- name: shares
+		type: uint256
+
+  ```
+
+#### proposalRedeem
+> - Burn shares, receive 1 to 1 value of assets
+> - MUST have open proposal number
+> - MUST have userDeposit greater than or equal to userWithdrawal
+  ```yaml
+  - name: proposalRedeem
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: shares
+	type: uint256
+	-name: receiver
+	type: address
+	-name: owner
+	type: address
+	-name: proposal
+	type: uint256
+
+	outputs:
+		- name: assets
+		type: uint256
+
+  ```
+
+#### proposalOpen
+> - Issue new proposal
+> - MUST create new proposal number
+> - MUST account for amount withdrawn
+  ```yaml
+  - name: proposalOpen
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: token
+	type: address
+	-name: amount
+	type: uint256
+	-name: receiver
+	type: address
+	-name: num
+	type: uint256
+
+	outputs:
+		- name: proposalNum
+		type: uint256
+
+  ```
+
+#### proposalClose
+> - Close an opened proposal
+> - MUST account for amount received
+> - MUST have proposal greater than current proposal
+  ```yaml
+  - name: proposalClose
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: token
+	type: address
+	-name: proposal
+	type: uint256
+	-name: amount
+	type: uint256
+	-name: num
+	type: uint256
+
+	outputs:
+		- name: close
+		type: bool
+
+  ```
+
+#### depositSnail
+> - Optional accounting for tokens deposited by owner
+> - MUST be reserve rOwner
+  ```yaml
+  - name: depositSnail
+	  type: function
+	  stateMutability: nonpayable
+
+	inputs:
+	- name: token
+	type: address
+	-name: sender
+	type: address
+	-name: amount
+	type: uint256
+
+	outputs:
+		- name: deposit
+		type: bool
+
+  ```
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119 and RFC 8174.
+
+## Rationale
+
+The reserve is designed to be a basic implementation of the reserve interface. Other non specified conditions should be addressed on case by case instances. Reserves use [ERC-20](../EIPS/eip-20.md) for shares and [ERC-4626](../EIPS/eip-4626.md) for creations of shares within proposals. All accounting measures are designed to enforce audit practices based on use case. 
+
+## Backwards Compatibility
+
+Tokenized reserves are made compatible with [ERC-20](../EIPS/eip-20.md) and [ERC-4626](../EIPS/eip-4626.md).
+
+## Security Considerations
+
+Needs discussion.
+
+## Copyright
+
+Copyright and related rights waived via [CC0](../LICENSE.md).
 
