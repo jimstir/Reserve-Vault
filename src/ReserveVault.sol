@@ -233,8 +233,8 @@ contract ReserveVault is ERC4626 {
     }
     /**
     * @dev Make a deposit to proposal creating new shares
-    * - MUST be open proposal
-    * - MUST NOT be closed proposal
+    * - MUST be opened proposal
+    * - MUST NOT be opened proposal that was closed
     * NOTE: using the deposit() will cause shares to not be accounted for in a proposal
     * @param assets amount being deposited
     * @param receiver address of depositor
@@ -255,8 +255,8 @@ contract ReserveVault is ERC4626 {
     }
     /**
     * @dev Make a deposit to proposal creating new shares
-    * - MUST account for proposalNumber
-    * - MUST have proposalNumber
+    * - MUST be opened proposal
+    * - MUST NOT be opened proposal that was closed
     * NOTE: using the mint() will cause shares to not be accounted for in a proposal
     * @param shares amount being deposited
     * @param receiver address of depositor
@@ -280,6 +280,10 @@ contract ReserveVault is ERC4626 {
     * @dev Burn shares, receive 1 to 1 value of assets
     * - MUST have closed proposalNumber
     * - MUST NOT be userWithdrew amount greater than userDeposit amount
+    * @param assets Amount being deposited
+    * @param receiver Address of receiver
+    * @param owner Address of token owner
+    * @param proposal Number associated proposal
     */
     function proposalWithdraw(uint256 assets, address receiver, address owner, uint256 proposal)public virtual returns(uint256){
         require(closedProposal(proposal));
@@ -295,6 +299,10 @@ contract ReserveVault is ERC4626 {
     * - MUST have open proposal number
     * - MUST have user deposit greater than or equal to user withdrawal
     * NOTE: using ERC 4626 redeem() will not account for proposalWithdrawal
+    * @param shares Amount being deposited
+    * @param receiver Address of receiver
+    * @param owner Address of token owner
+    * @param proposal Number associated proposal
     */
     function proposalRedeem(uint256 shares, address receiver, address owner, uint256 proposal) public virtual returns(uint256){
         require(closedProposal(proposal));
@@ -328,7 +336,7 @@ contract ReserveVault is ERC4626 {
     /**
     * @dev Close an opened proposal
     * - MUST account for amount received
-    * - MUST proposal must be greater than current proposal
+    * - MUST be a proposal that is less than or equal to current proposal
     * @param token address of ERC20 token
     * @param proposal number of desired proposal to close
     * @param amount number assets being received
