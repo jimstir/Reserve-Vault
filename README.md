@@ -14,7 +14,7 @@ requires: 20, 4626
 # Reserve-Vault
 
 ## Description
-This is a reference implementations of EIP 7425. There are getter functions, and intializled contructor parameters included. Continued development will include added test, scripts, extension contracts and other documentation.
+This is a reference implementation of EIP 7425. There are getter functions, and intializled contructor parameters included. Continued development will include added test, scripts, extension contracts and other documentation.
 
 ## Abstract
 
@@ -348,11 +348,12 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 		- []
 
   ```
+# Core Functions
 
 #### proposalDeposit
 > - Make a deposit to proposal creating new shares
 > - MUST be open proposal
-> - MUST NOT be closed proposal
+> - MUST NOT be opened proposal that was closed
   ```yaml
   - name: proposalDeposit
 	  type: function
@@ -375,7 +376,7 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 #### proposalMint
 > - Make a deposit to proposal creating new shares
 > - MUST be open proposal
-> - MUST NOT be closed proposal
+> - MUST NOT be opened proposal that was closed
   ```yaml
   - name: proposalMint
 	  type: function
@@ -395,7 +396,7 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 
   ```
 
-#### proposalWithdrawal
+#### proposalWithdraw
 > - Burn shares, receive 1 to 1 value of assets
 > - MUST have closed proposalNumber
 > - MUST have userDeposit greater than or equal to userWithdrawal
@@ -422,7 +423,7 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 
 #### proposalRedeem
 > - Burn shares, receive 1 to 1 value of assets
-> - MUST have open proposal number
+> - MUST have closed proposal number
 > - MUST have userDeposit greater than or equal to userWithdrawal
   ```yaml
   - name: proposalRedeem
@@ -473,7 +474,7 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 #### proposalClose
 > - Close an opened proposal
 > - MUST account for amount received
-> - MUST have proposal greater than current proposal
+> - MUST be a proposal that is less than or equal to current proposal
   ```yaml
   - name: proposalClose
 	  type: function
@@ -514,6 +515,48 @@ Tokenized reserves are an extension of tokenized vaults. The goal is to create a
 	outputs:
 		- name: deposit
 		type: bool
+
+  ```
+
+# Events
+
+#### proposals
+  ```yaml
+	- name: token
+	indexed: true
+	type: address
+	
+	- name: proposalNum
+	indexed: true
+	type: uint256
+		
+	- name: amount
+	indexed: true
+	type: uint256
+	
+	- name: recipient
+	indexed: false
+	type: address
+
+  ```
+
+#### depositR
+  ```yaml
+	- name: token
+	indexed: true
+	type: address
+	
+	- name: amount
+	indexed: true
+	type: uint256
+
+	-name: time
+	indexed: true
+	type: uint256
+
+	- name: count
+	indexed: false
+	type: uint256
 
   ```
 
